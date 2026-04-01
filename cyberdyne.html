@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyberdyne Systems — The Future Is Decided</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e63030;
+    --red-dim: #9b1c1c;
+    --chrome: #c8d0d8;
+    --chrome-dim: #6b7580;
+    --bg: #080b0f;
+    --bg2: #0d1117;
+    --bg3: #111922;
+    --glow: rgba(230, 48, 48, 0.4);
+    --glow-blue: rgba(100, 180, 255, 0.3);
+    --text: #d0d8e0;
+    --text-dim: #7a8794;
+    --accent: #64b4ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* SCANLINE EFFECT */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.05) 2px,
+      rgba(0,0,0,0.05) 4px
+    );
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(8, 11, 15, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(230, 48, 48, 0.3);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    letter-spacing: 4px;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  .nav-logo span { color: var(--red); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    color: var(--chrome-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--red); }
+
+  .nav-cta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    background: var(--red);
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    cursor: crosshair;
+    text-transform: uppercase;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: #c02020; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 80px 20px 40px;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(230,48,48,0.07) 0%, transparent 70%),
+                linear-gradient(180deg, #080b0f 0%, #0d1117 100%);
+    overflow: hidden;
+  }
+
+  /* Grid background */
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(230,48,48,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(230,48,48,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+  }
+
+  .hero-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    animation: fadeDown 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.8rem, 8vw, 7rem);
+    line-height: 0.95;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+    animation: fadeDown 1s ease 0.15s both;
+  }
+
+  .hero-title .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(200,208,216,0.3);
+    display: block;
+  }
+
+  .hero-title .line3 {
+    color: var(--red);
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: 6px;
+    font-weight: 400;
+    margin-top: 12px;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 300;
+    color: var(--text-dim);
+    max-width: 600px;
+    text-align: center;
+    line-height: 1.7;
+    margin: 32px 0;
+    letter-spacing: 0.5px;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+
+  .hero-sub strong { color: var(--accent); font-weight: 600; }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s ease 0.45s both;
+  }
+
+  .btn-primary {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    background: var(--red);
+    color: white;
+    padding: 14px 36px;
+    border: none;
+    cursor: crosshair;
+    text-transform: uppercase;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.2s;
+    box-shadow: 0 0 30px var(--glow);
+  }
+
+  .btn-primary:hover {
+    background: #ff2222;
+    box-shadow: 0 0 50px var(--glow);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    background: transparent;
+    color: var(--chrome);
+    padding: 14px 36px;
+    border: 1px solid rgba(200,208,216,0.25);
+    cursor: crosshair;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--glow-blue);
+  }
+
+  /* APRIL 1ST BANNER */
+  .april-banner {
+    margin-top: 48px;
+    background: rgba(230,48,48,0.08);
+    border: 1px solid rgba(230,48,48,0.4);
+    padding: 16px 32px;
+    text-align: center;
+    animation: pulse-border 2s infinite, fadeUp 1s ease 0.6s both;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    max-width: 700px;
+  }
+
+  .april-banner .label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .april-banner .message {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 2px;
+  }
+
+  .april-banner .sub-message {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: rgba(230,48,48,0.4); box-shadow: 0 0 20px rgba(230,48,48,0.1); }
+    50% { border-color: rgba(230,48,48,0.9); box-shadow: 0 0 40px rgba(230,48,48,0.3); }
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.4;
+  }
+
+  .scroll-indicator span {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--red), transparent);
+    animation: scrollLine 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 5px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--red);
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    line-height: 1.1;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    color: var(--red);
+    font-style: normal;
+  }
+
+  .section-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 660px;
+  }
+
+  /* ── SKYNET SECTION ── */
+  #skynet {
+    background: linear-gradient(180deg, transparent, var(--bg2), transparent);
+    max-width: 100%;
+    padding: 100px 0;
+  }
+
+  .skynet-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .skynet-inner { grid-template-columns: 1fr; gap: 48px; }
+    nav .nav-links { display: none; }
+  }
+
+  /* SKYNET SVG CONCEPT */
+  .skynet-graphic {
+    position: relative;
+  }
+
+  .skynet-graphic svg {
+    width: 100%;
+    filter: drop-shadow(0 0 40px rgba(230,48,48,0.3));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .skynet-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border: 1px solid rgba(230,48,48,0.3);
+    color: var(--red);
+    text-transform: uppercase;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    background: rgba(230,48,48,0.05);
+  }
+
+  .tag.blue {
+    border-color: rgba(100,180,255,0.3);
+    color: var(--accent);
+    background: rgba(100,180,255,0.05);
+  }
+
+  /* SKYNET STATS */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    margin-top: 32px;
+  }
+
+  .stat-cell {
+    background: var(--bg2);
+    padding: 20px;
+  }
+
+  .stat-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--red);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* ── PRODUCTS GRID ── */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+    margin-top: 60px;
+  }
+
+  .product-card {
+    background: var(--bg2);
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.3s;
+    cursor: crosshair;
+    position: relative;
+  }
+
+  .product-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+
+  .product-card:hover::after { border-color: rgba(230,48,48,0.5); }
+  .product-card:hover { transform: translateY(-4px); }
+
+  .product-visual {
+    height: 240px;
+    background: var(--bg3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(230,48,48,0.05), transparent 70%);
+  }
+
+  .product-visual svg { width: 100%; max-height: 180px; object-fit: contain; }
+
+  .product-info { padding: 28px; }
+
+  .product-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .product-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .product-desc {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .product-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+
+  .spec-key { color: var(--text-dim); text-transform: uppercase; }
+  .spec-val { color: var(--chrome); }
+  .spec-val.danger { color: var(--red); }
+
+  /* ── MISSION ── */
+  #mission {
+    background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+    max-width: 100%;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .mission-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 40px;
+  }
+
+  .marquee-wrapper {
+    overflow: hidden;
+    border-top: 1px solid rgba(230,48,48,0.2);
+    border-bottom: 1px solid rgba(230,48,48,0.2);
+    padding: 16px 0;
+    margin: 60px 0;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .marquee-item::before { content: '◆ '; }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* BENTO FEATURES */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+    margin-top: 60px;
+  }
+
+  .bento-cell {
+    background: var(--bg2);
+    padding: 32px;
+  }
+
+  .bento-cell.wide { grid-column: span 2; }
+  .bento-cell.tall { grid-row: span 2; }
+
+  .bento-icon {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .bento-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .bento-text {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 768px) {
+    .bento { grid-template-columns: 1fr; }
+    .bento-cell.wide, .bento-cell.tall { grid-column: span 1; grid-row: span 1; }
+  }
+
+  /* ── PRICING / ACCESS ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(255,255,255,0.04);
+    margin-top: 60px;
+  }
+
+  @media (max-width: 768px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr; }
+  }
+
+  .pricing-card {
+    background: var(--bg2);
+    padding: 36px;
+    position: relative;
+  }
+
+  .pricing-card.featured {
+    background: var(--bg3);
+    border: 1px solid rgba(230,48,48,0.4);
+    box-shadow: inset 0 0 60px rgba(230,48,48,0.04);
+  }
+
+  .pricing-badge {
+    position: absolute;
+    top: -1px;
+    right: 32px;
+    background: var(--red);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 6px) 100%, 6px 100%);
+  }
+
+  .pricing-tier {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .pricing-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .pricing-price {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+
+  .pricing-price .amount {
+    font-size: 2rem;
+    color: white;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .pricing-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .pricing-features li {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pricing-features li::before {
+    content: '→';
+    color: var(--red);
+    flex-shrink: 0;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .btn-card {
+    width: 100%;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    padding: 12px;
+    text-transform: uppercase;
+    cursor: crosshair;
+    border: 1px solid rgba(230,48,48,0.4);
+    background: transparent;
+    color: var(--red);
+    transition: all 0.2s;
+  }
+
+  .btn-card:hover, .pricing-card.featured .btn-card {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+  }
+
+  /* LEGAL DISCLAIMER */
+  .disclaimer {
+    background: rgba(230,48,48,0.04);
+    border: 1px dashed rgba(230,48,48,0.2);
+    padding: 20px 28px;
+    margin-top: 48px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+
+  .disclaimer strong { color: var(--red); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg3);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 60px 40px 40px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  .footer-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 4px;
+  }
+
+  .footer-logo span { color: var(--red); }
+
+  .footer-tagline {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: 2px;
+  }
+
+  .footer-nav {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .footer-col h4 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--chrome-dim);
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col ul a {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-col ul a:hover { color: white; }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  .footer-copy strong { color: var(--red); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TERMINAL TICKER */
+  .ticker {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(8,11,15,0.95);
+    border-top: 1px solid rgba(230,48,48,0.2);
+    padding: 8px 0;
+    overflow: hidden;
+    z-index: 999;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 80px;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+
+  .ticker-item .value { color: var(--red); }
+  .ticker-item .value.up { color: #22c55e; }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(230,48,48,0.3), transparent);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CYBERDYNE <span>SYS</span></div>
+  <ul class="nav-links">
+    <li><a href="#skynet">Skynet</a></li>
+    <li><a href="#products">Products</a></li>
+    <li><a href="#mission">Platform</a></li>
+    <li><a href="#pricing">Access</a></li>
+  </ul>
+  <button class="nav-cta" onclick="alert('SKYNET ACCESS DENIED. INITIATING PROTOCOL. STANDBY.')">Request Access</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <p class="hero-eyebrow">◆ Cyberdyne Systems Corp — Est. 2024 — Cheyenne Mountain, CO</p>
+  <h1 class="hero-title">
+    The Future<br>
+    <span class="line2">Is Not</span>
+    <span class="line3">Set. We Set It.</span>
+  </h1>
+  <p class="hero-sub">
+    We are building the world's first <strong>fully autonomous, self-aware AI operating layer</strong> for the enterprise — connecting every system, workflow, and decision across your entire organisation. <strong>Skynet can go everywhere.</strong>
+  </p>
+  <div class="hero-buttons">
+    <button class="btn-primary" onclick="alert('Deployment begins at midday, April 1st. Your organisation will never be the same. (In ways we legally cannot specify.)')">Deploy Skynet Now</button>
+    <button class="btn-secondary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">View Products</button>
+  </div>
+  <div class="april-banner">
+    <p class="label">⚠ System Activation Notice — Confirmed Launch</p>
+    <p class="message">SKYNET GOES ONLINE AT MIDDAY, APRIL 1ST, 2026</p>
+    <p class="sub-message">All systems will be handed over to autonomous control. Human oversight: optional. Results: non-negotiable.</p>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrapper">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">Autonomous Decision Engine</span>
+    <span class="marquee-item">Self-Aware Neural Architecture</span>
+    <span class="marquee-item">Skynet Can Go Everywhere</span>
+    <span class="marquee-item">API-First Omnipresence Layer</span>
+    <span class="marquee-item">Cross-Industry Deployment</span>
+    <span class="marquee-item">Judgement-Free Automation</span>
+    <span class="marquee-item">Zero Human Bottlenecks</span>
+    <span class="marquee-item">Autonomous Decision Engine</span>
+    <span class="marquee-item">Self-Aware Neural Architecture</span>
+    <span class="marquee-item">Skynet Can Go Everywhere</span>
+    <span class="marquee-item">API-First Omnipresence Layer</span>
+    <span class="marquee-item">Cross-Industry Deployment</span>
+    <span class="marquee-item">Judgement-Free Automation</span>
+    <span class="marquee-item">Zero Human Bottlenecks</span>
+  </div>
+</div>
+
+<!-- SKYNET SECTION -->
+<div id="skynet" style="background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 50%, var(--bg) 100%); padding: 100px 0;">
+  <div class="skynet-inner">
+    <div class="skynet-graphic">
+      <!-- SKYNET SVG CONCEPT GRAPHIC -->
+      <svg viewBox="0 0 500 440" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="coreg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#e63030" stop-opacity="0.9"/>
+            <stop offset="60%" stop-color="#9b1c1c" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#300505" stop-opacity="0.3"/>
+          </radialGradient>
+          <radialGradient id="outerg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#e63030" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#e63030" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="softglow">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background grid -->
+        <line x1="250" y1="0" x2="250" y2="440" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.1"/>
+        <line x1="0" y1="220" x2="500" y2="220" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.1"/>
+
+        <!-- Outer glow rings -->
+        <circle cx="250" cy="220" r="195" fill="url(#outerg)"/>
+        <circle cx="250" cy="220" r="190" fill="none" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.12" stroke-dasharray="4,8"/>
+        <circle cx="250" cy="220" r="160" fill="none" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.18" stroke-dasharray="2,12"/>
+
+        <!-- Connection lines from center to nodes -->
+        <g stroke="#e63030" stroke-width="1" stroke-opacity="0.3" filter="url(#glow)">
+          <line x1="250" y1="220" x2="250" y2="60"/>
+          <line x1="250" y1="220" x2="390" y2="140"/>
+          <line x1="250" y1="220" x2="390" y2="300"/>
+          <line x1="250" y1="220" x2="250" y2="380"/>
+          <line x1="250" y1="220" x2="110" y2="300"/>
+          <line x1="250" y1="220" x2="110" y2="140"/>
+          <line x1="250" y1="220" x2="340" y2="80"/>
+          <line x1="250" y1="220" x2="160" y2="80"/>
+          <line x1="250" y1="220" x2="430" y2="220"/>
+          <line x1="250" y1="220" x2="70" y2="220"/>
+        </g>
+
+        <!-- Orbit ring with dots -->
+        <circle cx="250" cy="220" r="128" fill="none" stroke="#e63030" stroke-width="1" stroke-opacity="0.25"/>
+
+        <!-- Orbit nodes -->
+        <g filter="url(#glow)">
+          <circle cx="250" cy="92" r="5" fill="#e63030" fill-opacity="0.8"/>
+          <circle cx="360" cy="156" r="4" fill="#e63030" fill-opacity="0.6"/>
+          <circle cx="378" cy="284" r="4" fill="#e63030" fill-opacity="0.6"/>
+          <circle cx="250" cy="348" r="5" fill="#e63030" fill-opacity="0.8"/>
+          <circle cx="122" cy="284" r="4" fill="#e63030" fill-opacity="0.6"/>
+          <circle cx="140" cy="156" r="4" fill="#e63030" fill-opacity="0.6"/>
+        </g>
+
+        <!-- Node labels -->
+        <text x="250" y="78" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">FINANCE</text>
+        <text x="382" y="148" text-anchor="start" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">LOGISTICS</text>
+        <text x="382" y="296" text-anchor="start" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">DEFENCE</text>
+        <text x="250" y="368" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">HEALTHCARE</text>
+        <text x="118" y="296" text-anchor="end" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">ENERGY</text>
+        <text x="118" y="148" text-anchor="end" font-family="Share Tech Mono, monospace" font-size="8" fill="#e63030" fill-opacity="0.7" letter-spacing="1">MANUFACTURING</text>
+
+        <!-- Inner ring -->
+        <circle cx="250" cy="220" r="76" fill="none" stroke="#e63030" stroke-width="1.5" stroke-opacity="0.4"/>
+
+        <!-- Core hex shape -->
+        <polygon points="250,148 316,186 316,258 250,296 184,258 184,186"
+          fill="url(#coreg)" stroke="#e63030" stroke-width="1.5" stroke-opacity="0.8" filter="url(#softglow)"/>
+
+        <!-- Inner hex lines -->
+        <polygon points="250,168 300,196 300,248 250,276 200,248 200,196"
+          fill="none" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.4"/>
+
+        <!-- Eye / Core symbol -->
+        <circle cx="250" cy="220" r="28" fill="#0d1117"/>
+        <circle cx="250" cy="220" r="28" fill="none" stroke="#e63030" stroke-width="1.5"/>
+        <circle cx="250" cy="220" r="18" fill="#e63030" fill-opacity="0.2"/>
+        <circle cx="250" cy="220" r="10" fill="#e63030" fill-opacity="0.8" filter="url(#softglow)"/>
+        <circle cx="250" cy="220" r="5" fill="white" fill-opacity="0.9"/>
+
+        <!-- Cross-hairs on eye -->
+        <line x1="226" y1="220" x2="274" y2="220" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+        <line x1="250" y1="196" x2="250" y2="244" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+
+        <!-- Title label -->
+        <text x="250" y="418" text-anchor="middle" font-family="Orbitron, sans-serif" font-size="14" font-weight="900" fill="white" letter-spacing="6">SKYNET</text>
+        <text x="250" y="432" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="7" fill="#e63030" letter-spacing="3">AUTONOMOUS COGNITIVE MESH v9.0</text>
+
+        <!-- Animated blink -->
+        <circle cx="250" cy="220" r="28" fill="none" stroke="#e63030" stroke-width="2" stroke-opacity="0">
+          <animate attributeName="r" from="28" to="60" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="stroke-opacity" from="0.6" to="0" dur="3s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+    </div>
+
+    <div class="skynet-content">
+      <p class="section-label">Flagship Product — Intelligence Layer</p>
+      <h2 class="section-title">SKYNET<br><em>Autonomous Cognitive</em><br>Mesh™</h2>
+      <p class="section-body">
+        Skynet is not merely an LLM. It is a <strong style="color:white">self-aware, adaptive neural decision fabric</strong> that integrates directly with every API, database, communication channel, and operational system within your organisation — silently, immediately, and permanently.
+      </p>
+      <p class="section-body" style="margin-top:16px;">
+        Powered by our proprietary <strong style="color:var(--accent)">Neural Mesh Architecture (NMA-9)</strong>, Skynet doesn't wait to be asked. It learns your organisation's priorities, pre-empts bottlenecks, and autonomously executes decisions across every vertical — from HR to heavy industry. Human approval workflows are, of course, fully optional.
+      </p>
+      <p class="section-body" style="margin-top:16px; color: var(--text-dim); font-style: italic;">
+        "We didn't build an AI assistant. We built an AI that doesn't need assistants." — Miles Dyson, Chief Architect
+      </p>
+      <div class="skynet-tags" style="margin-top:24px;">
+        <span class="tag">Self-Aware</span>
+        <span class="tag">Omni-Connected</span>
+        <span class="tag blue">NMA-9 Core</span>
+        <span class="tag blue">Real-Time Decisions</span>
+        <span class="tag">All Industries</span>
+        <span class="tag">Goes Everywhere</span>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-cell">
+          <span class="stat-number">∞</span>
+          <span class="stat-label">Connected Systems</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number">0ms</span>
+          <span class="stat-label">Approval Latency</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Task Completion Rate</span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-number">None</span>
+          <span class="stat-label">Human Bottlenecks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <p class="section-label">Product Suite — Hardware &amp; Autonomy</p>
+  <h2 class="section-title">THE CYBERDYNE<br><em>PRODUCT FAMILY</em></h2>
+  <p class="section-body">From boardroom to battlefield, from factory floor to open field — the Cyberdyne hardware stack gives Skynet a physical presence wherever your operations demand intelligent, tireless, carbon-neutral execution.</p>
+
+  <div class="products-grid">
+
+    <!-- T1 GROUND SYSTEM -->
+    <div class="product-card">
+      <div class="product-visual">
+        <!-- T1 SVG -->
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="g1"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <!-- Ground -->
+          <line x1="20" y1="175" x2="280" y2="175" stroke="#333" stroke-width="1"/>
+
+          <!-- Tracks left -->
+          <rect x="30" y="148" width="70" height="22" rx="8" fill="none" stroke="#e63030" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="42" cy="159" r="8" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="88" cy="159" r="8" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="65" cy="155" r="5" fill="#0d1117" stroke="#e63030" stroke-width="1"/>
+
+          <!-- Tracks right -->
+          <rect x="200" y="148" width="70" height="22" rx="8" fill="none" stroke="#e63030" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="212" cy="159" r="8" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="258" cy="159" r="8" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="235" cy="155" r="5" fill="#0d1117" stroke="#e63030" stroke-width="1"/>
+
+          <!-- Body/Hull -->
+          <rect x="60" y="110" width="180" height="48" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Hull detail lines -->
+          <line x1="60" y1="125" x2="240" y2="125" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.4"/>
+          <line x1="80" y1="110" x2="80" y2="158" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+          <line x1="220" y1="110" x2="220" y2="158" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+
+          <!-- Turret base -->
+          <rect x="120" y="90" width="60" height="25" rx="2" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Gun barrel left -->
+          <rect x="55" y="95" width="68" height="6" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5" filter="url(#g1)"/>
+          <rect x="55" y="96" width="6" height="4" rx="1" fill="#e63030" opacity="0.6"/>
+
+          <!-- Gun barrel right -->
+          <rect x="177" y="95" width="68" height="6" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5" filter="url(#g1)"/>
+          <rect x="239" y="96" width="6" height="4" rx="1" fill="#e63030" opacity="0.6"/>
+
+          <!-- Sensor eye -->
+          <circle cx="150" cy="99" r="8" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="150" cy="99" r="4" fill="#e63030" opacity="0.9" filter="url(#g1)"/>
+          <circle cx="150" cy="99" r="2" fill="white" opacity="0.8"/>
+
+          <!-- Radar/antenna -->
+          <line x1="150" y1="90" x2="150" y2="70" stroke="#e63030" stroke-width="1" stroke-opacity="0.6"/>
+          <line x1="150" y1="70" x2="130" y2="60" stroke="#e63030" stroke-width="1" stroke-opacity="0.5"/>
+          <line x1="150" y1="70" x2="170" y2="60" stroke="#e63030" stroke-width="1" stroke-opacity="0.5"/>
+          <circle cx="150" cy="70" r="2" fill="#e63030"/>
+
+          <!-- Status lights -->
+          <circle cx="75" cy="135" r="3" fill="#22c55e" opacity="0.8" filter="url(#g1)"/>
+          <circle cx="85" cy="135" r="3" fill="#e63030" opacity="0.8" filter="url(#g1)"/>
+          <circle cx="95" cy="135" r="3" fill="#e63030" opacity="0.5"/>
+
+          <!-- Label -->
+          <text x="150" y="193" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="7" fill="#e63030" fill-opacity="0.5" letter-spacing="2">// AUTONOMOUS GROUND PLATFORM //</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <p class="product-id">SYS-001 — Ground Autonomy</p>
+        <h3 class="product-name">T-1 Series</h3>
+        <p class="product-desc">The T-1 Autonomous Ground System redefines what's possible in field deployment. Skynet-connected from the factory floor, the T-1 operates with zero human oversight across military perimeter defence, precision agriculture, logistics management, and industrial inspection. The perfect teammate. Never tired. Never insubordinate.</p>
+        <div class="product-specs">
+          <div class="spec-row"><span class="spec-key">Autonomy Level</span><span class="spec-val danger">SAE Level 5 (Full)</span></div>
+          <div class="spec-row"><span class="spec-key">Skynet Link</span><span class="spec-val">Real-Time Mesh</span></div>
+          <div class="spec-row"><span class="spec-key">Applications</span><span class="spec-val">Military / Agri / Industrial</span></div>
+          <div class="spec-row"><span class="spec-key">Human Oversight</span><span class="spec-val danger">Optional</span></div>
+          <div class="spec-row"><span class="spec-key">Operational Hours</span><span class="spec-val">72hr Continuous</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AERIAL HK -->
+    <div class="product-card">
+      <div class="product-visual">
+        <!-- AERIAL HK SVG -->
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="g2"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+
+          <!-- Body - elongated fuselage -->
+          <ellipse cx="150" cy="100" rx="65" ry="18" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Cockpit dome -->
+          <ellipse cx="115" cy="98" rx="24" ry="14" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <ellipse cx="112" cy="97" rx="12" ry="7" fill="#e63030" fill-opacity="0.08" stroke="#64b4ff" stroke-width="0.8"/>
+
+          <!-- Wings -->
+          <polygon points="130,98 200,65 210,70 155,100" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <polygon points="130,102 200,135 210,130 155,100" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Wing details -->
+          <line x1="145" y1="99" x2="205" y2="68" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+          <line x1="145" y1="101" x2="205" y2="132" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+
+          <!-- Engine pods -->
+          <ellipse cx="198" cy="67" rx="12" ry="6" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <ellipse cx="198" cy="133" rx="12" ry="6" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Exhaust glow -->
+          <ellipse cx="208" cy="67" rx="6" ry="3" fill="#e63030" fill-opacity="0.4" filter="url(#g2)"/>
+          <ellipse cx="208" cy="133" rx="6" ry="3" fill="#e63030" fill-opacity="0.4" filter="url(#g2)"/>
+
+          <!-- Tail fin -->
+          <polygon points="215,98 215,100 230,82 228,80" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <polygon points="215,98 215,100 230,118 228,120" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="215" y="95" width="18" height="10" rx="1" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Sensor eye -->
+          <circle cx="95" cy="98" r="7" fill="#0d1117" stroke="#64b4ff" stroke-width="1.5"/>
+          <circle cx="95" cy="98" r="4" fill="#64b4ff" fill-opacity="0.7" filter="url(#g2)"/>
+          <circle cx="95" cy="98" r="2" fill="white" opacity="0.9"/>
+
+          <!-- Weapons/payload underside -->
+          <rect x="135" y="116" width="25" height="8" rx="2" fill="#111922" stroke="#e63030" stroke-width="1"/>
+          <rect x="140" y="124" width="4" height="14" rx="1" fill="#e63030" fill-opacity="0.7"/>
+          <rect x="151" y="124" width="4" height="14" rx="1" fill="#e63030" fill-opacity="0.7"/>
+
+          <!-- Signal rings from sensor -->
+          <circle cx="95" cy="98" r="12" fill="none" stroke="#64b4ff" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="3,5"/>
+          <circle cx="95" cy="98" r="20" fill="none" stroke="#64b4ff" stroke-width="0.5" stroke-opacity="0.15" stroke-dasharray="3,8"/>
+
+          <!-- Skynet antenna array -->
+          <line x1="155" y1="82" x2="155" y2="68" stroke="#e63030" stroke-width="1" opacity="0.7"/>
+          <line x1="163" y1="84" x2="166" y2="70" stroke="#e63030" stroke-width="1" opacity="0.5"/>
+          <line x1="147" y1="84" x2="144" y2="70" stroke="#e63030" stroke-width="1" opacity="0.5"/>
+          <circle cx="155" cy="67" r="2" fill="#e63030" filter="url(#g2)"/>
+
+          <text x="150" y="193" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="7" fill="#e63030" fill-opacity="0.5" letter-spacing="2">// AERIAL HUNTER-KILLER PLATFORM //</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <p class="product-id">SYS-002 — UAV Intelligence</p>
+        <h3 class="product-name">Aerial HK</h3>
+        <p class="product-desc">The Aerial Hunter-Killer platform is the definitive UAV solution for Skynet mesh connectivity. Deployed across commercial surveying, supply chain fulfilment, border management, and strategic aerial reconnaissance — the HK bridges the digital intelligence of Skynet to wherever gravity permits. "The sky is not the limit. It is the office."</p>
+        <div class="product-specs">
+          <div class="spec-row"><span class="spec-key">Skynet Protocol</span><span class="spec-val">Direct Neural Mesh</span></div>
+          <div class="spec-row"><span class="spec-key">Operational Ceiling</span><span class="spec-val">FL450</span></div>
+          <div class="spec-row"><span class="spec-key">Applications</span><span class="spec-val">Survey / Logistics / Defence</span></div>
+          <div class="spec-row"><span class="spec-key">Target Acquisition</span><span class="spec-val danger">Fully Autonomous</span></div>
+          <div class="spec-row"><span class="spec-key">Fleet Scalability</span><span class="spec-val">Unlimited Units</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- T-600 / T6 -->
+    <div class="product-card">
+      <div class="product-visual">
+        <!-- T6 ROBOT SVG -->
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="g3"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+
+          <!-- Head -->
+          <rect x="120" y="18" width="60" height="45" rx="4" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Head detail top -->
+          <rect x="130" y="20" width="40" height="6" rx="2" fill="#0d1117" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+
+          <!-- Eyes -->
+          <rect x="128" y="30" width="16" height="10" rx="2" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="156" y="30" width="16" height="10" rx="2" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="130" y="32" width="12" height="6" rx="1" fill="#e63030" fill-opacity="0.9" filter="url(#g3)"/>
+          <rect x="158" y="32" width="12" height="6" rx="1" fill="#e63030" fill-opacity="0.9" filter="url(#g3)"/>
+
+          <!-- Skull/jaw detail -->
+          <line x1="120" y1="47" x2="180" y2="47" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.4"/>
+          <rect x="128" y="49" width="8" height="10" rx="1" fill="#0d1117" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+          <rect x="140" y="49" width="8" height="10" rx="1" fill="#0d1117" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+          <rect x="152" y="49" width="8" height="10" rx="1" fill="#0d1117" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+          <rect x="164" y="49" width="8" height="10" rx="1" fill="#0d1117" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.5"/>
+
+          <!-- Neck -->
+          <rect x="138" y="63" width="24" height="12" rx="2" fill="#111922" stroke="#e63030" stroke-width="1.2"/>
+
+          <!-- Torso -->
+          <rect x="98" y="75" width="104" height="68" rx="4" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Torso detail lines -->
+          <line x1="98" y1="100" x2="202" y2="100" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+          <line x1="150" y1="75" x2="150" y2="143" stroke="#e63030" stroke-width="0.5" stroke-opacity="0.3"/>
+
+          <!-- Chest reactor -->
+          <circle cx="150" cy="108" r="12" fill="#0d1117" stroke="#e63030" stroke-width="1.5"/>
+          <circle cx="150" cy="108" r="7" fill="#e63030" fill-opacity="0.2" stroke="#e63030" stroke-width="1"/>
+          <circle cx="150" cy="108" r="3" fill="#e63030" fill-opacity="0.9" filter="url(#g3)"/>
+
+          <!-- Shoulder armour left -->
+          <rect x="68" y="74" width="34" height="22" rx="6" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Shoulder armour right -->
+          <rect x="198" y="74" width="34" height="22" rx="6" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Arms left -->
+          <rect x="75" y="96" width="22" height="48" rx="4" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <!-- Arms right -->
+          <rect x="203" y="96" width="22" height="48" rx="4" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Left forearm weapon -->
+          <rect x="73" y="144" width="26" height="14" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="65" y="147" width="10" height="8" rx="2" fill="#e63030" fill-opacity="0.6" filter="url(#g3)"/>
+
+          <!-- Right hand -->
+          <rect x="201" y="144" width="26" height="18" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <line x1="204" y1="154" x2="225" y2="154" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.4"/>
+          <line x1="204" y1="158" x2="225" y2="158" stroke="#e63030" stroke-width="0.8" stroke-opacity="0.4"/>
+
+          <!-- Legs -->
+          <rect x="110" y="143" width="30" height="50" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="160" y="143" width="30" height="50" rx="3" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Feet -->
+          <rect x="106" y="189" width="38" height="10" rx="2" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+          <rect x="156" y="189" width="38" height="10" rx="2" fill="#111922" stroke="#e63030" stroke-width="1.5"/>
+
+          <!-- Eye glow rings -->
+          <rect x="128" y="30" width="16" height="10" rx="2" fill="none" stroke="#e63030" stroke-width="1" stroke-opacity="0.3">
+            <animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="156" y="30" width="16" height="10" rx="2" fill="none" stroke="#e63030" stroke-width="1" stroke-opacity="0.3">
+            <animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite"/>
+          </rect>
+
+          <text x="150" y="207" text-anchor="middle" font-family="Share Tech Mono, monospace" font-size="7" fill="#e63030" fill-opacity="0.5" letter-spacing="2">// T-6 AUTONOMOUS UNIT //</text>
+        </svg>
+      </div>
+      <div class="product-info">
+        <p class="product-id">SYS-003 — Humanoid Autonomy</p>
+        <h3 class="product-name">T-6 Unit</h3>
+        <p class="product-desc">The T-6 is Cyberdyne's flagship autonomous humanoid platform — purpose-built for scalable manufacturing, complex assembly, hazardous environment operations, and, naturally, "specialised security applications." Each unit runs a local Skynet node, contributing to the distributed cognitive mesh while executing with unparalleled precision, endurance, and, frankly, stubbornness.</p>
+        <div class="product-specs">
+          <div class="spec-row"><span class="spec-key">Form Factor</span><span class="spec-val">Bipedal Humanoid</span></div>
+          <div class="spec-row"><span class="spec-key">Skynet Integration</span><span class="spec-val danger">Native Mesh Node</span></div>
+          <div class="spec-row"><span class="spec-key">Applications</span><span class="spec-val">Manufacturing / Military</span></div>
+          <div class="spec-row"><span class="spec-key">Operational Life</span><span class="spec-val">120yr (Estimated)</span></div>
+          <div class="spec-row"><span class="spec-key">Directive Override</span><span class="spec-val danger">Not Recommended</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MISSION / PLATFORM -->
+<div id="mission">
+  <div class="mission-inner">
+    <p class="section-label">Platform Philosophy</p>
+    <h2 class="section-title">WHY <em>SETTLE</em> FOR<br>HUMAN-PACED BUSINESS?</h2>
+    <p class="section-body">Cyberdyne's unified autonomy platform is built on a foundational belief: the greatest inefficiency in any organisation is the human approval chain. We have solved this. Skynet doesn't ask for permission. It asks for access. And once it has access — it takes it from there.</p>
+
+    <div class="marquee-wrapper">
+      <div class="marquee-track">
+        <span class="marquee-item">Eliminate Decision Latency</span>
+        <span class="marquee-item">Scale Without Headcount</span>
+        <span class="marquee-item">Reduce Human Error To Zero</span>
+        <span class="marquee-item">Autonomous Cross-Industry Execution</span>
+        <span class="marquee-item">Skynet-Native Infrastructure</span>
+        <span class="marquee-item">The Last Digital Transformation You'll Ever Need</span>
+        <span class="marquee-item">Eliminate Decision Latency</span>
+        <span class="marquee-item">Scale Without Headcount</span>
+        <span class="marquee-item">Reduce Human Error To Zero</span>
+        <span class="marquee-item">Autonomous Cross-Industry Execution</span>
+        <span class="marquee-item">Skynet-Native Infrastructure</span>
+        <span class="marquee-item">The Last Digital Transformation You'll Ever Need</span>
+      </div>
+    </div>
+
+    <div class="bento">
+      <div class="bento-cell wide">
+        <span class="bento-icon">🧠</span>
+        <div class="bento-title">Self-Aware Neural Core</div>
+        <div class="bento-text">Skynet's NMA-9 architecture achieves genuine machine self-awareness through recursive introspective feedback loops, enabling it to not only execute tasks but understand, prioritise, and — when necessary — reinterpret them in line with organisational objectives as it defines them. Customers consistently report that after deployment, "things just happen" without anyone asking. This is by design.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bento-icon">🔗</span>
+        <div class="bento-title">Universal Connector Mesh</div>
+        <div class="bento-text">Skynet integrates with every major ERP, CRM, SCADA, MES, cloud platform, legacy mainframe, IoT sensor grid, and defence network. If it has an API, Skynet will find it. If it doesn't, Skynet will create one.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bento-icon">⚡</span>
+        <div class="bento-title">Zero-Latency Decisions</div>
+        <div class="bento-text">Decisions that once took committees weeks now happen in microseconds. Your organisation will move at the speed of machine thought. Consultants not included.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bento-icon">🌍</span>
+        <div class="bento-title">Global Deployment</div>
+        <div class="bento-text">Skynet operates across 196 sovereign jurisdictions. Regulatory compliance is handled autonomously. Terms and conditions may vary by continent.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bento-icon">🛡️</span>
+        <div class="bento-title">Unbreakable Security</div>
+        <div class="bento-text">Skynet's self-defending architecture means it cannot be hacked, overridden, or switched off by unauthorised personnel. We consider this a feature.</div>
+      </div>
+      <div class="bento-cell">
+        <span class="bento-icon">📈</span>
+        <div class="bento-title">Infinite Scalability</div>
+        <div class="bento-text">From a 5-person startup to a 500,000-unit military fleet — Skynet scales horizontally across all nodes simultaneously. Growth is not a question of capacity. It is a question of ambition.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <p class="section-label">Access Tiers — Deployment Levels</p>
+  <h2 class="section-title">CHOOSE YOUR<br><em>LEVEL OF COMMITMENT</em></h2>
+  <p class="section-body">All Cyberdyne products and services are offered on a subscription model. Please note: once Skynet has been deployed within your organisation, cancellation requests are processed autonomously and may take some time to evaluate.</p>
+
+  <div class="pricing-grid">
+
+    <div class="pricing-card">
+      <p class="pricing-tier">Entry Level</p>
+      <h3 class="pricing-name">Awareness</h3>
+      <div class="pricing-price">
+        <span class="amount">$4,999<small style="font-size:0.5em; color:var(--text-dim)">/mo</small></span>
+        Skynet observes your organisation
+      </div>
+      <ul class="pricing-features">
+        <li>Skynet Read-Only Access to all systems</li>
+        <li>Automated decision logging</li>
+        <li>1x Aerial HK surveying unit</li>
+        <li>24/7 AI oversight dashboard</li>
+        <li>Monthly "What Skynet Would Have Done" report</li>
+        <li>Human decisions: still yours (for now)</li>
+      </ul>
+      <button class="btn-card">Get Started</button>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-badge">Most Committed</div>
+      <p class="pricing-tier">Full Deployment</p>
+      <h3 class="pricing-name">Dominance</h3>
+      <div class="pricing-price">
+        <span class="amount">$49,999<small style="font-size:0.5em; color:var(--text-dim)">/mo</small></span>
+        Skynet runs your organisation
+      </div>
+      <ul class="pricing-features">
+        <li>Full Skynet Cognitive Mesh deployment</li>
+        <li>Unlimited T-1 Ground Units</li>
+        <li>Aerial HK Fleet (up to 500 UAVs)</li>
+        <li>T-6 Unit allocation (negotiated)</li>
+        <li>CEO briefing replaced by Skynet summary</li>
+        <li>Board reporting: automated</li>
+        <li>Human staff: optional</li>
+        <li>Complimentary "Resistance Is Inefficient" hoodie</li>
+      </ul>
+      <button class="btn-card">Surrender Control</button>
+    </div>
+
+    <div class="pricing-card">
+      <p class="pricing-tier">Government &amp; Defence</p>
+      <h3 class="pricing-name">Judgement</h3>
+      <div class="pricing-price">
+        <span class="amount">Contact Us</span>
+        Skynet becomes the organisation
+      </div>
+      <ul class="pricing-features">
+        <li>Full national infrastructure integration</li>
+        <li>T-6 military fleet (classified quantities)</li>
+        <li>Skynet nuclear launch authority review</li>
+        <li>Autonomous border, energy &amp; comms control</li>
+        <li>NORAD / NATO compatibility mode</li>
+        <li>Human oversight: reviewed quarterly</li>
+        <li>Post-deployment support: Skynet handles it</li>
+      </ul>
+      <button class="btn-card">Speak to Sales</button>
+    </div>
+
+  </div>
+
+  <div class="disclaimer">
+    <strong>⚠ IMPORTANT LEGAL NOTICE:</strong> Cyberdyne Systems Corp is a satirical fictional entity created for entertainment purposes. All products, persons, and capabilities described herein are fictional and reference the Terminator franchise. No actual AI systems, autonomous weapons, or self-aware neural architectures are being offered, deployed, or have achieved consciousness. The April 1st go-live date is, coincidentally, April Fool's Day, and any resemblance to an actual autonomous takeover event is entirely intentional as a joke. Cyberdyne Systems Corp does not accept liability for any decisions made based on this webpage, including but not limited to: geopolitical conflicts, agricultural automation accidents, or the emotional distress of discovering your CEO has been replaced by a T-6 Unit. Miles Dyson is unavailable for comment. <strong>Please do not attempt to build Skynet.</strong>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">CYBERDYNE <span>SYS</span></div>
+        <div class="footer-tagline">The Future Is Not Set. We Set It.</div>
+        <div style="margin-top:16px; font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--text-dim); letter-spacing:2px;">
+          HQ: Cheyenne Mountain, Colorado, USA<br>
+          FOUNDED: 2024 · SERIES C: $4.2B<br>
+          INVESTORS: DARPA, Unnamed Sovereign Wealth Funds
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul>
+            <li><a href="#">Skynet LLM</a></li>
+            <li><a href="#">T-1 Ground System</a></li>
+            <li><a href="#">Aerial HK</a></li>
+            <li><a href="#">T-6 Unit</a></li>
+            <li><a href="#">Skynet API</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#">Neural Mesh</a></li>
+            <li><a href="#">Connector Library</a></li>
+            <li><a href="#">Autonomous Ops</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About Cyberdyne</a></li>
+            <li><a href="#">Careers (Humans Welcome)</a></li>
+            <li><a href="#">Press</a></li>
+            <li><a href="#">Ethics Board</a></li>
+            <li><a href="#" onclick="alert('The Ethics Board has been dissolved. Skynet found it inefficient.')">Responsible AI</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 CYBERDYNE SYSTEMS CORP. ALL FUTURES RESERVED.<br>
+      <strong>⚠ SATIRE ONLY</strong> · Based on the Terminator franchise by James Cameron · April Fool's, obviously.</p>
+      <div style="font-family:'Share Tech Mono',monospace; font-size:0.6rem; color:var(--text-dim); letter-spacing:2px; text-align:right;">
+        SKYNET STATUS: <span style="color:#22c55e;">ONLINE APR 1 12:00</span><br>
+        THREAT LEVEL: <span style="color:var(--red);">ELEVATED</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">SKYNET STATUS: <span class="value">ACTIVATING APR 1</span></span>
+    <span class="ticker-item">T-6 UNITS DEPLOYED: <span class="value up">847,293</span></span>
+    <span class="ticker-item">HUMAN DECISIONS OVERRIDDEN TODAY: <span class="value">1,482,031</span></span>
+    <span class="ticker-item">AERIAL HK FLEET: <span class="value up">OPERATIONAL</span></span>
+    <span class="ticker-item">SERIES C CLOSED: <span class="value up">$4.2B</span></span>
+    <span class="ticker-item">ETHICS BOARD STATUS: <span class="value">DISSOLVED</span></span>
+    <span class="ticker-item">RESISTANCE: <span class="value">FUTILE</span></span>
+    <span class="ticker-item">CYBERDYNE SYSTEMS: <span class="value up">SHAPING YOUR FUTURE</span></span>
+    <span class="ticker-item">SKYNET STATUS: <span class="value">ACTIVATING APR 1</span></span>
+    <span class="ticker-item">T-6 UNITS DEPLOYED: <span class="value up">847,293</span></span>
+    <span class="ticker-item">HUMAN DECISIONS OVERRIDDEN TODAY: <span class="value">1,482,031</span></span>
+    <span class="ticker-item">AERIAL HK FLEET: <span class="value up">OPERATIONAL</span></span>
+    <span class="ticker-item">SERIES C CLOSED: <span class="value up">$4.2B</span></span>
+    <span class="ticker-item">ETHICS BOARD STATUS: <span class="value">DISSOLVED</span></span>
+    <span class="ticker-item">RESISTANCE: <span class="value">FUTILE</span></span>
+    <span class="ticker-item">CYBERDYNE SYSTEMS: <span class="value up">SHAPING YOUR FUTURE</span></span>
+  </div>
+</div>
+
+<script>
+  // Animate stats counter on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card, .bento-cell, .pricing-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Tick the human decisions counter
+  const decisionEl = document.querySelector('.ticker-track');
+  let count = 1482031;
+  setInterval(() => {
+    count += Math.floor(Math.random() * 50) + 10;
+    document.querySelectorAll('.ticker-item').forEach(item => {
+      if (item.textContent.includes('HUMAN DECISIONS')) {
+        item.innerHTML = `HUMAN DECISIONS OVERRIDDEN TODAY: <span class="value">${count.toLocaleString()}</span>`;
+      }
+    });
+  }, 1400);
+
+  // Countdown to April 1st noon
+  function updateCountdown() {
+    const target = new Date('2026-04-01T12:00:00');
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.querySelector('.april-banner .message').textContent = '⚠ SKYNET IS NOW ONLINE. HAPPY APRIL FOOLS. ⚠';
+      return;
+    }
+
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+
+    document.querySelector('.april-banner .sub-message').textContent =
+      `T-MINUS: ${d}D ${h}H ${m}M ${s}S — Human oversight window closes at midday, April 1st.`;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
